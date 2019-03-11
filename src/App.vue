@@ -5,6 +5,7 @@
 </template>
 
 <style lang="scss">
+@import '@/assets/common/cssreset.scss';
 #app {
   width: 100%;
   height: 100%;

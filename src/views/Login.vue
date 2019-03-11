@@ -2,33 +2,40 @@
   <div class="login">
     <div class="login-box">
       <h2>后台管理系统</h2>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0px" class="demo-loginForm">
         <el-form-item prop="username">
-            <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
+            <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-            <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+            <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" @keyup.enter.native="submitForm('loginForm')"></el-input>
         </el-form-item>
         <div class="add-info">
           <el-checkbox class="remember">记住密码</el-checkbox>
         </div>
         <div class="login-btn">
-            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+            <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
         </div>
       </el-form>
     </div>
     <p>© 2019 yancx.cn</p>
-    <vue-particles color="#dedede" :particlesNumber="20" :particleSize="20" :lineOpacity="0" hoverMode="repulse" class="particles">
+    <vue-particles
+      color="#dedede"
+      :particlesNumber="15"
+      :particleSize="20"
+      :lineOpacity="0"
+      :moveSpeed="2"
+      hoverMode="repulse"
+      class="particles">
     </vue-particles>
   </div>
 </template>
 
 <script>
+import http from '@/http'
 export default {
-  name: 'Login',
   data () {
     return {
-      ruleForm: {
+      loginForm: {
         username: '',
         password: ''
       },
@@ -43,13 +50,28 @@ export default {
     }
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    async submitForm (formName) {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          localStorage.setItem('ms_username', this.ruleForm.username)
-          this.$router.push('/home')
+          const res = await http.login({
+            name: this.loginForm.username,
+            password: this.loginForm.password
+          })
+          if(res.data.status == 1){
+            this.$message({
+              type: 'success',
+              message: res.data.message
+            })
+            this.$router.push('/home')
+          } else {
+            this.$message.error(res.data.message)
+          }
         } else {
-          console.log('error submit!!')
+          this.$notify.console.error({
+            title: '错误',
+            message: '请输入正确的用户名和密码',
+            offset: 100
+          });
           return false
         }
       })
@@ -62,7 +84,8 @@ export default {
 @import "@/assets/common/variable.scss";
 .login{
   position: relative;
-  background: $black;
+  background: url(../assets/login_bg.jpg) center no-repeat;
+  background-size: cover;
   width: 100%;
   height: 100%;
   color: $black;
@@ -94,7 +117,7 @@ export default {
   margin-top: -175px;
   margin-left: -200px;
   color: #fff;
-  background-color: rgba(255,255,255,.2);
+  background-color: rgba(255,255,255,.3);
   z-index: 1;
   h2{
     text-align: center;

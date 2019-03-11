@@ -1,11 +1,10 @@
 import Vue from 'vue';
-import './assets/common/cssreset.scss';
 import ElementUI from 'element-ui';
 import VueParticles from 'vue-particles';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/store';
 
 Vue.use(ElementUI);
 Vue.use(VueParticles);
