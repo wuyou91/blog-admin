@@ -7,23 +7,24 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     adminInfo: {
-      avatar: 'http://localhost:1003/images/default.jpg',
+      avatar: 'http://10.10.60.65:1003/images/default.jpg',
       name: 'default',
     },
   },
   mutations: {
-    saveAdminInfo(state, adminInfo) {
-      state.adminInfo = adminInfo;
+    saveAdminInfo(state, data) {
+      state.adminInfo = data;
     },
   },
   actions: {
-    async getAdminData({ commit }) {
+    async getAdminInfo({ commit }) {
       try {
         const res = await http.getAdminInfo();
-        if (res.status === 1) {
-          commit('saveAdminInfo', res.data);
+        if (res.data.status === 1) {
+          commit('saveAdminInfo', res.data.data);
+          console.log(`成功获取${res.data.data}`);
         } else {
-          throw new Error(res.type);
+          console.log('获取失败');
         }
       } catch (err) {
         // console.log(err.message)

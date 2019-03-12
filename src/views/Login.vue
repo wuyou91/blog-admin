@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    async submitForm (formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const res = await http.login({

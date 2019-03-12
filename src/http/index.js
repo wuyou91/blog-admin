@@ -1,9 +1,11 @@
 import axios from 'axios';
-
-const api = 'http://localhost:1003';
+import config from '@/config';
 
 export default {
   login(data) {
-    return axios.post(`${api}/admin/login`, data);
+    return axios.post(`${config.API_BASE}/admin/login`, data);
+  },
+  getAdminInfo() {
+    return axios.get(`${config.API_BASE}/admin/getInfo`);
   },
 };
