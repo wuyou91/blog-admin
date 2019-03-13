@@ -8,7 +8,7 @@
     <div class="pagination">
       <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
     </div>
-    <loading></loading>
+    <loading v-if="showLowding"></loading>
   </div>
  </template>
 
