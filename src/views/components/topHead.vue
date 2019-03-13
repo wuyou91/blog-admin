@@ -12,15 +12,8 @@
           <i class="el-icon-rank"></i>
         </el-tooltip>
       </div>
-      <div class="msg-num">
-        <el-tooltip effect="dark" :content="msgnum?`有${msgnum}条未读消息`:`消息中心`" placement="bottom">
-          <router-link to="/home/message">
-              <i class="el-icon-bell"></i>
-          </router-link>
-        </el-tooltip>
-        <span v-show="msgnum"></span></div>
       <div class="user-info">
-        <router-link to="/home/userinfo"><img :src="adminInfo.avatar"></router-link>
+        <router-link to="/home/userinfo"><img :src="imgBase + adminInfo.avatar"></router-link>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             {{adminInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -38,12 +31,13 @@
 
 <script>
 import {mapState} from 'vuex'
+import config from '@/config'
 export default {
   data () {
     return {
       collapse: false,
-      msgnum: 3,
-      fullscreen: false
+      fullscreen: false,
+      imgBase: config.API_BASE  + '/images/'
     }
   },
   computed: {
@@ -120,7 +114,7 @@ export default {
 .info{
   display: flex;
   float: right;
-  font-size: 24px;
+  font-size: 28px;
   line-height: 40px;
   color: #fff;
 }
@@ -130,19 +124,6 @@ export default {
 }
 .info .full-screen{
   transform: rotate(45deg);
-}
-.info .msg-num{
-  position: relative;
-}
-.info .msg-num span{
-  position: absolute;
-  top: 5px;
-  right: -2px;
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: red;
 }
 .info .user-info img{
   border-radius: 50%;

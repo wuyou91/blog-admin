@@ -8,13 +8,17 @@
       background-color="#423064"
       text-color="#cceeff"
       active-text-color="#0099e6">
-      <el-menu-item index="/home/userinfo">
-        <i class="el-icon-star-off"></i>
+      <el-menu-item index="/home/admin">
+        <i class="el-icon-document"></i>
         <span slot="title">个人信息</span>
       </el-menu-item>
-      <el-menu-item index="/home/message">
-        <i class="el-icon-message"></i>
-        <span slot="title">文章列表</span>
+      <el-menu-item index="/home/articleList">
+        <i class="el-icon-printer"></i>
+        <span slot="title">文章管理</span>
+      </el-menu-item>
+      <el-menu-item index="/home/authority">
+        <i class="el-icon-setting"></i>
+        <span slot="title">权限管理</span>
       </el-menu-item>
     </el-menu>
   </div>

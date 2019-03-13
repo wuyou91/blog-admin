@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     adminInfo: {
-      avatar: 'http://10.10.60.65:1003/images/default.jpg',
+      avatar: 'default.jpg',
       name: 'default',
     },
   },
@@ -22,7 +22,6 @@ export default new Vuex.Store({
         const res = await http.getAdminInfo();
         if (res.data.status === 1) {
           commit('saveAdminInfo', res.data.data);
-          console.log(`成功获取${res.data.data}`);
         } else {
           console.log('获取失败');
         }
