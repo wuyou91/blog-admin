@@ -10,4 +10,7 @@ export default {
   getAdminInfo() {
     return axios.get(`${config.API_BASE}/admin/getInfo`);
   },
+  getArticleList(data) {
+    return axios.get(`${config.API_BASE}/article/articleList`, data);
+  },
 };
