@@ -16,6 +16,14 @@
         <i class="el-icon-printer"></i>
         <span slot="title">文章管理</span>
       </el-menu-item>
+      <el-menu-item index="/home/write">
+        <i class="el-icon-edit"></i>
+        <span slot="title">添加文章</span>
+      </el-menu-item>
+      <el-menu-item index="/home/visitor">
+        <i class="el-icon-edit-outline"></i>
+        <span slot="title">访客统计</span>
+      </el-menu-item>
       <el-menu-item index="/home/authority">
         <i class="el-icon-setting"></i>
         <span slot="title">权限管理</span>

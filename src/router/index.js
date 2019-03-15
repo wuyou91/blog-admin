@@ -30,6 +30,16 @@ export default new Router({
           component: () => import('../views/articleList.vue'),
         },
         {
+          path: '/home/write',
+          name: 'write',
+          component: () => import('../views/write.vue'),
+        },
+        {
+          path: '/home/visitor',
+          name: 'visitor',
+          component: () => import('../views/visitorCount.vue'),
+        },
+        {
           path: '/home/authority',
           name: 'authority',
           component: () => import('../views/authority.vue'),

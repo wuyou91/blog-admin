@@ -1,16 +1,11 @@
  <template>
-  <div class="authority">
+  <div class="article-list">
     <el-table :data="tableData" style="width: 100%" stripe >
-      <el-table-column prop="id" label="ID" width="180" align="center"></el-table-column>
-      <el-table-column prop="date_string" label="昵称" width="180" align="center"></el-table-column>
-      <el-table-column prop="title" label="级别" width="180" align="center"></el-table-column>
-      <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
-      <el-table-column label="编辑" align="center" width="180">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.$index)" type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column prop="id" label="序列号" width="180" align="center"></el-table-column>
+      <el-table-column prop="ip" label="访客ip" width="180" align="center"></el-table-column>
+      <el-table-column prop="first_time" label="首次访问时间" width="180" align="center"></el-table-column>
+      <el-table-column prop="last_time" label="最后访问时间" align="center" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="visit_count" label="访问总数" align="center" show-overflow-tooltip></el-table-column>
     </el-table>
     <div class="pagination">
       <el-pagination background layout="prev, pager, next" :total= total @current-change = "handleCurrentChange"></el-pagination>
@@ -47,7 +42,7 @@ export default {
     },
     async getData(page,limit){
       const data = {page,limit}
-      const res = await http.getArticleList(data)
+      const res = await http.getVisitor(data)
       this.tableData = res.data.data
       this.total = res.data.total
       this.showLowding = false

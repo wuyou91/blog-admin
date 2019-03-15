@@ -11,6 +11,12 @@ export default {
     return axios.get(`${config.API_BASE}/admin/getInfo`);
   },
   getArticleList(data) {
-    return axios.get(`${config.API_BASE}/article/articleList`, data);
+    return axios.get(`${config.API_BASE}/article/articleList`, { params: data });
   },
+  getVisitor(data) {
+    return axios.get(`${config.API_BASE}/admin/visitor`, { params: data });
+  },
+  addArticle(data) {
+    return axios.post(`${config.API_BASE}/article/addArticle`, data);
+  }
 };
