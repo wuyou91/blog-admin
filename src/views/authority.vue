@@ -2,14 +2,15 @@
   <div class="authority">
     <el-table :data="tableData" style="width: 100%" stripe >
       <el-table-column prop="id" label="ID" width="180" align="center"></el-table-column>
-      <el-table-column prop="date_string" label="昵称" width="180" align="center"></el-table-column>
-      <el-table-column prop="title" label="级别" width="180" align="center"></el-table-column>
-      <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
-      <el-table-column label="编辑" align="center" width="180">
+      <el-table-column label="头像" width="180" align="center">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.$index)" type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <img class="avatar" :src="imgBase + scope.row.avatar" alt="">
         </template>
+      </el-table-column>
+      <el-table-column prop="name" label="昵称" width="180" align="center"></el-table-column>
+      <el-table-column prop="grade" label="级别" width="180" align="center"></el-table-column>
+      <el-table-column prop="desc" label="简介" align="center" width="180"></el-table-column>
+      <el-table-column prop="create_time" label="注册时间" align="center" ></el-table-column>
       </el-table-column>
     </el-table>
     <div class="pagination">
@@ -22,13 +23,16 @@
 <script>
 import loading from './components/loading'
 import http from '@/http'
+import config from '@/config'
+
 export default {
   data () {
     return {
       showLowding: true,
       tableData: [],
       total: 0,
-      limit: 10
+      limit: 10,
+      imgBase: config.API_BASE  + '/images/'
     }
   },
   created() {
@@ -47,7 +51,7 @@ export default {
     },
     async getData(page,limit){
       const data = {page,limit}
-      const res = await http.getArticleList(data)
+      const res = await http.getAdminList(data)
       this.tableData = res.data.data
       this.total = res.data.total
       this.showLowding = false
@@ -57,8 +61,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.article-list{
+.authority{
   position: relative;
+}
+.avatar{
+  display: block;
+  width: 50px;
+  border-radius: 50%;
+  margin: 0 auto;
 }
 .pagination{
   display: flex;

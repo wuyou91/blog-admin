@@ -19,7 +19,7 @@
             {{adminInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <a href="http://www.yancx.cn"><el-dropdown-item>关于作者</el-dropdown-item></a>
+            <a href="http://www.yancx.cn" target="_blank"><el-dropdown-item>去到网站</el-dropdown-item></a>
             <a href="https://github.com/wuyou91"><el-dropdown-item>查看github</el-dropdown-item></a>
             <el-dropdown-item divided command="signOut">退出登陆</el-dropdown-item>
           </el-dropdown-menu>

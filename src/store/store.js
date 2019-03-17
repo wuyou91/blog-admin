@@ -7,8 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     adminInfo: {
-      avatar: 'default.jpg',
-      name: 'default',
+      // avatar: 'default.jpg',
+      // name: 'default',
     },
   },
   mutations: {
