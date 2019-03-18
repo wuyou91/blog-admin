@@ -21,5 +21,5 @@ export default {
   },
   addArticle(data) {
     return axios.post(`${config.API_BASE}/article/addArticle`, data);
-  }
+  },
 };

@@ -57,11 +57,11 @@ export default {
   display: flex;
   justify-content: space-between;
   img{
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
   }
   .admin-info{
-    margin-left: 50px;
+    margin-left: 20px;
     flex-grow:1;
   }
 
