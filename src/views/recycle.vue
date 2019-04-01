@@ -9,8 +9,8 @@
       <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="编辑" align="center" width="180">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.$index)" type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small" @click="handleDeleteArticle(scope.$index)">删除</el-button>
+          <el-button @click="handleRestore(scope.$index)" type="text" size="small">还原</el-button>
+          <el-button type="text" size="small" @click="handleDeleteArticle(scope.$index)">彻底删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -40,30 +40,23 @@ export default {
     loading
   },
   methods: {
-    handleClick(arg){
-      console.log(arg)
-    },
-    handleCurrentChange(val){
-      console.log(val)
-      this.getData(val,this.limit)
-    },
-    handleDeleteArticle(index){
+    handleRestore(index){
       const articleiId = this.tableData[index].id
       const articleTitle = this.tableData[index].title
-      this.$confirm(`你确定将ID为${articleiId}，标题为《${articleTitle}》的文章放入回收站吗？`, '提示', {
+      this.$confirm(`你确定要还原ID为${articleiId}，标题为《${articleTitle}》的文章吗？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
         const data = {
           article_id: articleiId,
-          content: {deleted:true}
+          content: {deleted:false}
         }
         const res = await http.updateArticle(data)
         if(res.data.status==1){
           this.$message({
             type: 'success',
-            message: '已成功将文章放入回收站'
+            message: '文章已还原'
           })
           this.tableData.splice(index,1)
         }else{
@@ -76,8 +69,40 @@ export default {
         });          
       });
     },
+    handleCurrentChange(val){
+      console.log(val)
+      this.getData(val,this.limit)
+    },
+    handleDeleteArticle(index){
+      const articleiId = this.tableData[index].id
+      const articleTitle = this.tableData[index].title
+      this.$confirm(`你确定彻底删除ID为${articleiId}，标题为《${articleTitle}》的文章吗？，删除后无法还原！`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const data = {
+          id: articleiId
+        }
+        const res = await http.deleteArticle(data)
+        if(res.data.status==1){
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+          this.tableData.splice(index,1)
+        }else{
+          this.$message.error(res.data.message)
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
+    },
     async getData(page,limit){
-      const data = {page,limit}
+      const data = {page,limit,deleted:true}
       const res = await http.getArticleList(data)
       this.tableData = res.data.data
       this.total = res.data.total

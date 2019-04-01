@@ -44,6 +44,12 @@ export default new Router({
           name: 'authority',
           component: () => import('../views/authority.vue'),
         },
+        {
+          path: '/home/recycle',
+          name: 'recycle',
+          component: () => import('../views/recycle.vue'),
+        },
+
       ],
     },
   ],

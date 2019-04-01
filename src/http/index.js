@@ -22,4 +22,10 @@ export default {
   addArticle(data) {
     return axios.post(`${config.API_BASE}/article/addArticle`, data);
   },
+  deleteArticle(data) {
+    return axios.get(`${config.API_BASE}/article/deleteArticle`, { params: data });
+  },
+  updateArticle(data) {
+    return axios.post(`${config.API_BASE}/article/updateArticle`, data);
+  }
 };

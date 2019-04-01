@@ -28,6 +28,11 @@
         <i class="el-icon-setting"></i>
         <span slot="title">权限管理</span>
       </el-menu-item>
+      <el-menu-item index="/home/recycle">
+        <i class="el-icon-delete"></i>
+        <span slot="title">回收站</span>
+      </el-menu-item>
+
     </el-menu>
   </div>
 </template>
