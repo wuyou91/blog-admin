@@ -32,6 +32,8 @@
 <script>
 import {mapState} from 'vuex'
 import config from '@/config'
+import http from '@/http'
+import util from '@/util'
 export default {
   data () {
     return {
@@ -74,8 +76,13 @@ export default {
     // 用户下拉菜单相关事件
     handleCommand (command) {
       if (command === 'signOut') {
-        localStorage.removeItem('ms_username')
-        this.$router.push('/')
+        http.singout().then((res) => {
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+          this.$router.push('/')
+        })
       }
     },
     changeCollapse () {

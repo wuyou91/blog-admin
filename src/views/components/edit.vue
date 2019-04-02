@@ -28,6 +28,7 @@
     <quill-editor v-model="content" :options="editorOption">
     </quill-editor>
     <div class="submit-article">
+      <el-button type="info" @click="cancel" :loading = "loading">取消修改</el-button>
       <el-button type="primary" @click="submitArticle" :loading = "loading">{{submitText}}</el-button>
     </div>
     <div class="preview" v-show="content">
@@ -45,17 +46,21 @@ import { quillEditor } from 'vue-quill-editor'
 import http from '@/http'
 
 export default {
+    props: {
+        article:Object
+    },
   components: {
     quillEditor
   },
   data () {
     return {
-      title:'',
-      desc: '',
-      content: '',
-      classify: '',
+        oldArticle: this.article,
+      title: this.article.title,
+      desc: this.article.desc,
+      content: this.article.html,
+      classify: this.article.classify,
       articleClassify: ['技术文章','生活随笔','转载记录','其他'],
-      submitText: '提交文章',
+      submitText: '提交修改',
       loading: false,
       editorOption: {
         placeholder: '请输入内容'
@@ -66,23 +71,35 @@ export default {
     submitArticle(){
       this.loading = true
       this.submitText = '提交中'
-      http.addArticle({
-        title:this.title,
-        desc:this.desc,
-        classify:this.classify,
-        html: this.content
+      http.updateArticle({
+        article_id:this.oldArticle.id,
+        content:{
+            title:this.title,
+            desc:this.desc,
+            classify:this.classify,
+            html: this.content
+        }
+
       }).then((data)=>{
         this.$message({
           type: 'success',
           message: data.data.message
         })
-        this.title = ''
-        this.desc = ''
-        this.classify = ''
-        this.content = ''
-        this.submitText = '提交文章'
-        this.loading = false
+        const result = {
+            index: this.oldArticle.index,
+            content:{
+                ...this.oldArticle,
+                title:this.title,
+                desc:this.desc,
+                classify:this.classify,
+                html: this.content
+            }
+        }
+        this.$emit('change',result)
       })
+    },
+    cancel(){
+        this.$emit('cancel')
     }
   }
 }

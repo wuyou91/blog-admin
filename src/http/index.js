@@ -7,6 +7,9 @@ export default {
   login(data) {
     return axios.post(`${config.API_BASE}/admin/login`, data);
   },
+  singout() {
+    return axios.get(`${config.API_BASE}/admin/singout`);
+  },
   getAdminInfo() {
     return axios.get(`${config.API_BASE}/admin/getInfo`);
   },
@@ -19,11 +22,17 @@ export default {
   getVisitor(data) {
     return axios.get(`${config.API_BASE}/admin/visitor`, { params: data });
   },
+  blogInfo(){
+    return axios.get(`${config.API_BASE}/admin/blogInfo`);
+  },
   addArticle(data) {
     return axios.post(`${config.API_BASE}/article/addArticle`, data);
   },
   deleteArticle(data) {
     return axios.get(`${config.API_BASE}/article/deleteArticle`, { params: data });
+  },
+  getArticle(data) {
+    return axios.get(`${config.API_BASE}/article/${data}`);
   },
   updateArticle(data) {
     return axios.post(`${config.API_BASE}/article/updateArticle`, data);

@@ -6,6 +6,7 @@
       <el-table-column prop="clicks" label="点击量" width="180" align="center"></el-table-column>
       <el-table-column prop="stars" label="标心量" width="180" align="center"></el-table-column>
       <el-table-column prop="title" label="标题" width="400" align="center"></el-table-column>
+      <el-table-column prop="classify" label="分类" width="180" align="center"></el-table-column>
       <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="编辑" align="center" width="180">
         <template slot-scope="scope">

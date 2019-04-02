@@ -19,12 +19,22 @@
         <el-row type="flex" :gutter="20" justify="space-between">
           <el-col :span="12">
             <el-card shadow="hover" class="card-gap">
-              今日访客<span class="visitor-count" style="color:#409EFF">111</span>
+              <div class="card-title">文章统计</div>
+              <div>
+                <span>总数</span><span style="color:#409EFF">{{blogInfo.articleCount}}</span>
+              </div>
+              <div>
+                <span>正常展示</span><span style="color:#409EFF">{{blogInfo.articleCount - blogInfo.deletedArticle}}</span>
+              </div>
+              <div>
+                <span>回收站</span><span style="color:#409EFF">{{blogInfo.deletedArticle}}</span>
+              </div>
             </el-card>
           </el-col>
           <el-col :span="12">
             <el-card shadow="hover" class="card-gap">
-              历史访客<span class="visitor-count" style="color:#67C23A">222</span>
+              <div class="card-title">访客统计</div>
+              <div>历史访客<span style="color:#67C23A">{{blogInfo.visitorCount}}</span></div>
             </el-card>
           </el-col>
         </el-row>
@@ -36,17 +46,22 @@
 <script>
 import config from '@/config'
 import{ mapState } from 'vuex'
+import http from '@/http'
 export default {
   data() {
     return {
-      imgBase: config.API_BASE  + '/images/'
+      imgBase: config.API_BASE  + '/images/',
+      blogInfo: {}
     }
   },
   computed: {
     ...mapState(['adminInfo'])
   },
-  mounted(){
-    console.log(this.adminInfo.desc)
+  created(){
+    http.blogInfo().then((res) => {
+      this.blogInfo = res.data.data
+      console.log(res.data)
+    })
   }
 }
 </script>
@@ -54,16 +69,21 @@ export default {
 <style lang="scss" scoped>
 .admin-contain{
   width: 100%;
-  display: flex;
-  justify-content: space-between;
   img{
+    display: block;
     width: 150px;
     height: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
   }
   .admin-info{
-    margin-left: 20px;
-    flex-grow:1;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
   }
-
+}
+.card-title{
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 </style>

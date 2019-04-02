@@ -6,10 +6,11 @@
       <el-table-column prop="clicks" label="点击量" width="180" align="center"></el-table-column>
       <el-table-column prop="stars" label="标心量" width="180" align="center"></el-table-column>
       <el-table-column prop="title" label="标题" width="400" align="center"></el-table-column>
+      <el-table-column prop="classify" label="分类" width="180" align="center"></el-table-column>
       <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="编辑" align="center" width="180">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.$index)" type="text" size="small">编辑</el-button>
+          <el-button @click="handleEdit(scope.$index)" type="text" size="small">编辑</el-button>
           <el-button type="text" size="small" @click="handleDeleteArticle(scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -17,34 +18,48 @@
     <div class="pagination">
       <el-pagination background layout="prev, pager, next" :total= total @current-change = "handleCurrentChange"></el-pagination>
     </div>
-    <loading v-if="showLowding"></loading>
+    <div class="edit" v-if="edit">
+      <edit :article = article @cancel ="cancel" @change= "changeArticle"></edit>
+    </div>
   </div>
  </template>
 
 <script>
-import loading from './components/loading'
 import http from '@/http'
+import edit from './components/edit.vue'
 export default {
+  components: {
+    edit
+  },
   data () {
     return {
-      showLowding: true,
       tableData: [],
       total: 0,
-      limit: 10
+      limit: 10,
+      edit:false,
+      article:{}
     }
   },
   created() {
     this.getData(1,this.limit)
   },
-  components:{
-    loading
-  },
   methods: {
-    handleClick(arg){
-      console.log(arg)
+    handleEdit(index){
+      const articleiId = this.tableData[index].id
+      http.getArticle(articleiId).then((res) => {
+        this.article = res.data.data
+        this.article.index = index
+        this.edit = true
+      })
+    },
+    changeArticle(data){
+      this.$set(this.tableData,data.index,data.content)
+      this.edit = false
+    },
+    cancel(){
+      this.edit = false
     },
     handleCurrentChange(val){
-      console.log(val)
       this.getData(val,this.limit)
     },
     handleDeleteArticle(index){
@@ -81,7 +96,6 @@ export default {
       const res = await http.getArticleList(data)
       this.tableData = res.data.data
       this.total = res.data.total
-      this.showLowding = false
     }
   }
 }
@@ -95,5 +109,15 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 30px;
+}
+.edit{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  overflow-y: auto;
+  background: #fff;
+  z-index: 1;
 }
 </style>
