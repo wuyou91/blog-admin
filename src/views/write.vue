@@ -1,5 +1,6 @@
 <template>
   <div class="write">
+    <sub-nav></sub-nav>
     <section class="head">
       <el-input v-model="title" placeholder="文章标题"></el-input>
       <el-input type="textarea" placeholder="文章简介" v-model="desc"></el-input>
@@ -43,10 +44,13 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
 import http from '@/http'
+import subNav from './components/subNav.vue'
+
 
 export default {
   components: {
-    quillEditor
+    quillEditor,
+    subNav
   },
   data () {
     return {

@@ -1,5 +1,6 @@
  <template>
   <div class="article-list">
+    <sub-nav></sub-nav>
     <el-table :data="tableData" style="width: 100%" stripe >
       <el-table-column prop="id" label="序列号" width="180" align="center"></el-table-column>
       <el-table-column prop="ip" label="访客ip" width="180" align="center"></el-table-column>
@@ -17,6 +18,8 @@
 <script>
 import loading from './components/loading'
 import http from '@/http'
+import subNav from './components/subNav.vue'
+
 export default {
   data () {
     return {
@@ -30,7 +33,8 @@ export default {
     this.getData(1,this.limit)
   },
   components:{
-    loading
+    loading,
+    subNav
   },
   methods: {
     handleClick(arg){
@@ -42,10 +46,16 @@ export default {
     },
     async getData(page,limit){
       const data = {page,limit}
-      const res = await http.getVisitor(data)
-      this.tableData = res.data.data
-      this.total = res.data.total
-      this.showLowding = false
+        http.getVisitor(data).then((res) => {
+          this.tableData = res.data.data
+          this.total = res.data.total
+          this.showLowding = false
+        },(error) => {
+          this.$message.error(error.response.data);
+          if(error.response.status ===403){
+            this.$router.push('/')
+          }
+        })
     } 
   }
 }

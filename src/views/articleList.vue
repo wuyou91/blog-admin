@@ -1,5 +1,6 @@
  <template>
   <div class="article-list">
+    <sub-nav></sub-nav>
     <el-table :data="tableData" style="width: 100%" stripe >
       <el-table-column prop="id" label="文章编号" width="180" align="center"></el-table-column>
       <el-table-column prop="date_string" label="创建日期" width="180" align="center"></el-table-column>
@@ -8,10 +9,10 @@
       <el-table-column prop="title" label="标题" width="400" align="center"></el-table-column>
       <el-table-column prop="classify" label="分类" width="180" align="center"></el-table-column>
       <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
-      <el-table-column label="编辑" align="center" width="180">
+      <el-table-column label="编辑" align="center" width="250">
         <template slot-scope="scope">
-          <el-button @click="handleEdit(scope.$index)" type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small" @click="handleDeleteArticle(scope.$index)">删除</el-button>
+          <el-button @click="handleEdit(scope.$index)" type="primary" plain size="small" icon="el-icon-edit">编辑</el-button>
+          <el-button @click="handleDeleteArticle(scope.$index)" type="danger" plain size="small" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -27,9 +28,11 @@
 <script>
 import http from '@/http'
 import edit from './components/edit.vue'
+import subNav from './components/subNav.vue'
 export default {
   components: {
-    edit
+    edit,
+    subNav
   },
   data () {
     return {

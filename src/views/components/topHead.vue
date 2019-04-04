@@ -33,13 +33,12 @@
 import {mapState} from 'vuex'
 import config from '@/config'
 import http from '@/http'
-import util from '@/util'
 export default {
   data () {
     return {
       collapse: false,
       fullscreen: false,
-      imgBase: config.API_BASE  + '/images/'
+      imgBase: config.cdn  + '/image/',
     }
   },
   computed: {
@@ -81,6 +80,9 @@ export default {
             type: 'success',
             message: res.data.message
           })
+          localStorage.removeItem('user')
+          localStorage.removeItem('autoLogin')
+          localStorage.removeItem('adminInfo')
           this.$router.push('/')
         })
       }

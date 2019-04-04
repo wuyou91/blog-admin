@@ -1,5 +1,6 @@
  <template>
   <div class="authority">
+    <sub-nav></sub-nav>
     <el-table :data="tableData" style="width: 100%" stripe >
       <el-table-column prop="id" label="ID" width="180" align="center"></el-table-column>
       <el-table-column label="头像" width="180" align="center">
@@ -24,6 +25,7 @@
 import loading from './components/loading'
 import http from '@/http'
 import config from '@/config'
+import subNav from './components/subNav.vue'
 
 export default {
   data () {
@@ -39,7 +41,8 @@ export default {
     this.getData(1,this.limit)
   },
   components:{
-    loading
+    loading,
+    subNav
   },
   methods: {
     handleClick(arg){
@@ -49,12 +52,18 @@ export default {
       console.log(val)
       this.getData(val,this.limit)
     },
-    async getData(page,limit){
+    getData(page,limit){
       const data = {page,limit}
-      const res = await http.getAdminList(data)
-      this.tableData = res.data.data
-      this.total = res.data.total
-      this.showLowding = false
+      http.getAdminList(data).then((res) => {
+        this.tableData = res.data.data
+        this.total = res.data.total
+        this.showLowding = false
+      },(err) => {
+        this.$message.error(err.response.data);
+        if(err.response.status ===403){
+          this.$router.push('/')
+        }
+      })
     } 
   }
 }

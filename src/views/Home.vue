@@ -22,9 +22,6 @@ export default {
     topHead,
     sideBar
   },
-  created() {
-    this.$store.dispatch('getAdminInfo')
-  },
   methods: {
     trsCollapse(data){
       this.isCollapse = data

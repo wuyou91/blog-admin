@@ -1,5 +1,6 @@
 <template>
   <div class="admin">
+    <sub-nav></sub-nav>
     <el-row :gutter="20">
       <el-col :span="8">
         <el-card shadow="hover">
@@ -47,10 +48,14 @@
 import config from '@/config'
 import{ mapState } from 'vuex'
 import http from '@/http'
+import subNav from './components/subNav.vue'
 export default {
+  components: {
+    subNav
+  },
   data() {
     return {
-      imgBase: config.API_BASE  + '/images/',
+      imgBase: config.cdn  + '/image/',
       blogInfo: {}
     }
   },
@@ -60,7 +65,11 @@ export default {
   created(){
     http.blogInfo().then((res) => {
       this.blogInfo = res.data.data
-      console.log(res.data)
+    },(err) => {
+      this.$message.error(err.response.data);
+      if(err.response.status ===403){
+        this.$router.push('/')
+      }
     })
   }
 }
