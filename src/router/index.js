@@ -39,6 +39,18 @@ const router = new Router({
           meta:'添加文章'
         },
         {
+          path: '/home/photoList',
+          name: 'photoList',
+          component: () => import('../views/photoList.vue'),
+          meta:'图片管理'
+        },
+        {
+          path: '/home/uploadPhotos',
+          name: 'uploadPhotos',
+          component: () => import('../views/uploadPhotos.vue'),
+          meta:'上传图片'
+        },
+        {
           path: '/home/visitor',
           name: 'visitor',
           component: () => import('../views/visitorCount.vue'),

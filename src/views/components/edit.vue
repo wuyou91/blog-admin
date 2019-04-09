@@ -10,20 +10,17 @@
           :value="item">
         </el-option>
       </el-select>
-      <!-- <el-input v-model="tags" placeholder="文章标签"></el-input> -->
-      <!-- <el-upload
+      <el-upload
         class="upload-demo"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
-        multiple
-        :limit="3"
-        :on-exceed="handleExceed"
-        :file-list="fileList">
+        list-type="picture"
+        :action="uploadBase"
+        :before-upload = "beforeAvatarUpload"
+        :data = "photoInfo"
+        :file-list="fileList"
+        :on-success = "success">
         <el-button size="small" type="primary">上传封面</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload> -->
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
+      </el-upload>
     </section>
     <quill-editor v-model="content" :options="editorOption">
     </quill-editor>
@@ -44,6 +41,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
 import http from '@/http'
+import config from '@/config'
 
 export default {
     props: {
@@ -54,20 +52,45 @@ export default {
   },
   data () {
     return {
-        oldArticle: this.article,
+      uploadBase: config.API_BASE + '/photo/uploadPhoto',
+      fileList: [{name: this.article.cover, url:config.cdn + '/' + this.article.cover}],
+      oldArticle: this.article,
       title: this.article.title,
+      cover: this.article.cover,
       desc: this.article.desc,
       content: this.article.html,
       classify: this.article.classify,
       articleClassify: ['技术文章','生活随笔','转载记录','其他'],
       submitText: '提交修改',
       loading: false,
+      photoInfo:{
+        photoType: "article",
+        phtoClassify: "cover"
+      },
       editorOption: {
         placeholder: '请输入内容'
       }
     }
   },
   methods: {
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/png"||file.type ==="image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('只能上传 jpg/png 格式的图片文件!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传的文件大小不能超过 2MB!');
+      }
+        return isJPG && isLt2M;
+    },
+    success(res){
+      this.$message({
+          type: res.type,
+          message: res.message
+      })
+      this.cover = res.message
+    },
     submitArticle(){
       this.loading = true
       this.submitText = '提交中'
@@ -77,6 +100,7 @@ export default {
             title:this.title,
             desc:this.desc,
             classify:this.classify,
+            cover: this.cover,
             html: this.content
         }
 
@@ -91,6 +115,7 @@ export default {
                 ...this.oldArticle,
                 title:this.title,
                 desc:this.desc,
+                cover:this.cover,
                 classify:this.classify,
                 html: this.content
             }

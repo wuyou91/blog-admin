@@ -20,6 +20,14 @@
         <i class="el-icon-edit"></i>
         <span slot="title">添加文章</span>
       </el-menu-item>
+      <el-menu-item index="/home/photoList">
+        <i class="el-icon-picture-outline"></i>
+        <span slot="title">图片管理</span>
+      </el-menu-item>
+      <el-menu-item index="/home/uploadPhotos">
+        <i class="el-icon-upload"></i>
+        <span slot="title">图片上传</span>
+      </el-menu-item>
       <el-menu-item index="/home/visitor">
         <i class="el-icon-edit-outline"></i>
         <span slot="title">访客统计</span>

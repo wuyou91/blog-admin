@@ -2,12 +2,17 @@
   <div class="article-list">
     <sub-nav></sub-nav>
     <el-table :data="tableData" style="width: 100%" stripe >
-      <el-table-column prop="id" label="文章编号" width="180" align="center"></el-table-column>
+      <el-table-column label="封面图" width="180" align="center">
+        <template slot-scope="scope">
+          <img class="cover" :src="imgBase + scope.row.cover + '?imageMogr2/auto-orient/thumbnail/200x/blur/1x0/quality/80|imageslim'" alt="">
+        </template>
+      </el-table-column>
+      <el-table-column prop="id" label="文章编号" width="100" align="center"></el-table-column>
       <el-table-column prop="date_string" label="创建日期" width="180" align="center"></el-table-column>
-      <el-table-column prop="clicks" label="点击量" width="180" align="center"></el-table-column>
-      <el-table-column prop="stars" label="标心量" width="180" align="center"></el-table-column>
+      <el-table-column prop="classify" label="分类" width="120" align="center"></el-table-column>
+      <el-table-column prop="clicks" label="点击量" width="80" align="center"></el-table-column>
+      <el-table-column prop="stars" label="标心量" width="80" align="center"></el-table-column>
       <el-table-column prop="title" label="标题" width="400" align="center"></el-table-column>
-      <el-table-column prop="classify" label="分类" width="180" align="center"></el-table-column>
       <el-table-column prop="desc" label="简介" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="编辑" align="center" width="250">
         <template slot-scope="scope">
@@ -29,6 +34,8 @@
 import http from '@/http'
 import edit from './components/edit.vue'
 import subNav from './components/subNav.vue'
+import config from '@/config'
+
 export default {
   components: {
     edit,
@@ -40,7 +47,8 @@ export default {
       total: 0,
       limit: 10,
       edit:false,
-      article:{}
+      article:{},
+      imgBase: config.cdn
     }
   },
   created() {
@@ -122,5 +130,8 @@ export default {
   overflow-y: auto;
   background: #fff;
   z-index: 1;
+}
+.cover{
+  height: 80px;
 }
 </style>

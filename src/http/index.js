@@ -36,5 +36,8 @@ export default {
   },
   updateArticle(data) {
     return axios.post(`${config.API_BASE}/article/updateArticle`, data);
+  },
+  getPhotoList(data) {
+    return axios.get(`${config.API_BASE}/photo/list`, { params: data });
   }
 };
