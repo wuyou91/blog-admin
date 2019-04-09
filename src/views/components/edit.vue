@@ -65,7 +65,7 @@ export default {
       loading: false,
       photoInfo:{
         photoType: "article",
-        phtoClassify: "cover"
+        photoClassify: "cover"
       },
       editorOption: {
         placeholder: '请输入内容'
