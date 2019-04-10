@@ -2,7 +2,7 @@
 <div class="upload-photos">
     <sub-nav></sub-nav>
     <div class="classify">
-        <el-select v-model="photoInfo.classify" placeholder="选择图片分类">
+        <el-select v-model="photoInfo.photoClassify" placeholder="选择图片分类">
             <el-option
                 v-for="(item,index) in options"
                 :key="index"
