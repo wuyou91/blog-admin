@@ -43,8 +43,8 @@ export default {
             uploadBase: config.API_BASE + '/photo/uploadPhoto',
             options: ['人像', '风光', '人文', '随拍', '其他'],
             photoInfo:{
-                type: "photo",
-                classify: "人像"
+                photoType: "photo",
+                photoClassify: "人像"
             },
         }
     },

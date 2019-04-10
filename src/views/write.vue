@@ -60,8 +60,8 @@ export default {
       submitText: '提交文章',
       loading: false,
       photoInfo:{
-        type: "article",
-        classify: "cover"
+        photoType: "article",
+        photoClassify: "cover"
       },
       editorOption: {
         placeholder: '请输入内容'
