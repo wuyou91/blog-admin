@@ -1,2 +1,2 @@
-# blog-admin
-个人博客后台管理系统
+# wesite-admin
+个人网站后台管理系统
