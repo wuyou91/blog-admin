@@ -61,7 +61,7 @@ export default {
             return isJPG && isLt2M;
         },
         submitUpload() {
-            his.$refs.upload.submit();
+            this.$refs.upload.submit();
         },
         success(res) {
             this.$message({
