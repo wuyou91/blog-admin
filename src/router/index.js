@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import login from '../views/login.vue';
-import store from '../store';
-
+import register from '../views/register.vue';
+import noPage from '../views/404.vue'
 Vue.use(Router);
 
 const router = new Router({
@@ -15,65 +15,74 @@ const router = new Router({
       component: login,
     },
     {
-      path: '/home',
+      path: '/register',
+      name: 'register',
+      component: register,
+    },
+    {
+      path: '/',
       name: 'home',
-      redirect: '/home/admin',
       component: () => import('../views/home.vue'),
       children: [
         {
-          path: '/home/admin',
+          path: '/admin',
           name: 'admin',
           component: () => import('../views/admin.vue'),
           meta:'个人信息'
         },
         {
-          path: '/home/articleList',
+          path: '/articleList',
           name: 'articleList',
           component: () => import('../views/articleList.vue'),
           meta:'文章列表'
         },
         {
-          path: '/home/write',
+          path: '/write',
           name: 'write',
           component: () => import('../views/write.vue'),
           meta:'添加文章'
         },
         {
-          path: '/home/photoList',
+          path: '/photoList',
           name: 'photoList',
           component: () => import('../views/photoList.vue'),
           meta:'图片管理'
         },
         {
-          path: '/home/uploadPhotos',
+          path: '/uploadPhotos',
           name: 'uploadPhotos',
           component: () => import('../views/uploadPhotos.vue'),
           meta:'上传图片'
         },
         {
-          path: '/home/visitor',
+          path: '/visitor',
           name: 'visitor',
           component: () => import('../views/visitorCount.vue'),
           meta:'访客统计'
         },
         {
-          path: '/home/authority',
+          path: '/authority',
           name: 'authority',
           component: () => import('../views/authority.vue'),
           meta:'权限管理'
         },
         {
-          path: '/home/recycle',
+          path: '/recycle',
           name: 'recycle',
           component: () => import('../views/recycle.vue'),
           meta:'回收站'
         },
       ],
     },
+    {
+      path: '*',
+      name: '404',
+      component: noPage,
+    },
   ],
 });
 router.beforeEach((to,from,next) => {
-  if(to.name==='login'){
+  if(to.name==='login' || to.name==='register'){
     next()
   }else{
     if(localStorage.getItem('adminInfo')){

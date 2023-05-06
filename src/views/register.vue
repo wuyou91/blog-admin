@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-box">
-      <h2>后台管理系统</h2>
+      <h2>注册新用户</h2>
       <el-form
         :model="loginForm"
         :rules="rules"
@@ -23,41 +23,25 @@
             @keyup.enter.native="submitForm('loginForm')"
           ></el-input>
         </el-form-item>
-        <div class="add-info">
-          <el-checkbox
-            class="remember"
-            v-model="remember"
-            @change="changeRemember"
-            >记住用户名和密码</el-checkbox
-          >
-          <el-checkbox
-            class="remember"
-            v-model="autoLogin"
-            @change="changeAutoLogin"
-            >自动登陆</el-checkbox
+        <el-form-item prop="password">
+          <el-input
+            type="password"
+            placeholder="请再次输入密码"
+            v-model="loginForm.passwordRepeat"
+            @keyup.enter.native="submitForm('loginForm')"
+          ></el-input>
+        </el-form-item>
+        <div class="login-btn">
+          <el-button type="primary" @click="submitForm('loginForm')"
+            >注册</el-button
           >
         </div>
         <div class="login-btn">
-          <el-button type="primary" @click="submitForm('loginForm')"
-            >登录</el-button
-          >
+          <el-button @click="$router.replace('/')">返回</el-button>
         </div>
       </el-form>
-      <p class="register-text">
-        还没有账号？<router-link to="/register">点击注册</router-link>
-      </p>
     </div>
     <p>© {{ year }} yancx.cn</p>
-    <vue-particles
-      color="#dedede"
-      :particlesNumber="15"
-      :particleSize="20"
-      :lineOpacity="0"
-      :moveSpeed="2"
-      hoverMode="repulse"
-      class="particles"
-    >
-    </vue-particles>
   </div>
 </template>
 
@@ -66,12 +50,11 @@ import http from "@/http";
 export default {
   data() {
     return {
-      remember: false,
-      autoLogin: false,
       year: new Date().getFullYear(),
       loginForm: {
         name: "",
         password: "",
+        passwordRepeat: "",
       },
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
@@ -79,28 +62,20 @@ export default {
       },
     };
   },
-  mounted() {
-    const loginForm = JSON.parse(localStorage.getItem("user"));
-    if (loginForm) {
-      this.remember = true;
-      this.loginForm = loginForm;
-    }
-    if (localStorage.getItem("autoLogin")) {
-      this.autoLogin = true;
-      this.login(loginForm);
-    }
-  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          if (this.remember) {
-            localStorage.setItem("user", JSON.stringify(this.loginForm));
+          if (this.loginForm.password === this.loginForm.passwordRepeat) {
+            this.login(this.loginForm);
+          } else {
+            this.$notify.error({
+              title: "错误",
+              message: "两次输入的密码不一致",
+              offset: 100,
+            });
+            return false;
           }
-          if (this.autoLogin) {
-            localStorage.setItem("autoLogin", "true");
-          }
-          this.login(this.loginForm);
         } else {
           this.$notify.error({
             title: "错误",
@@ -112,32 +87,15 @@ export default {
       });
     },
     async login(userData) {
-      const res = await http.login(userData);
+      const res = await http.register(userData);
       if (res.data.status == 1) {
         this.$message({
           type: "success",
           message: res.data.message,
         });
-        this.$store.dispatch("getAdminInfo").then(
-          () => {
-            this.$router.push("/admin");
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
+        this.$router.push("/");
       } else {
         this.$message.error(res.data.message);
-      }
-    },
-    changeAutoLogin() {
-      if (this.autoLogin) {
-        this.remember = true;
-      }
-    },
-    changeRemember() {
-      if (!this.remember && this.autoLogin) {
-        this.autoLogin = false;
       }
     },
   },
@@ -154,13 +112,6 @@ export default {
   width: 100%;
   height: 100%;
   color: $black;
-  .particles {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
   & > p {
     position: absolute;
     bottom: 20px;
@@ -175,14 +126,14 @@ export default {
   top: 45%;
   left: 50%;
   width: 400px;
-  height: 350px;
+  height: 390px;
   border-radius: 5px;
   box-sizing: border-box;
   padding: 10px 20px;
   margin-top: -175px;
   margin-left: -200px;
-  color: #fff;
-  background-color: rgba(150, 150, 150, 0.4);
+  color: #3a3a3a;
+  background-color: #fff;
   z-index: 1;
   h2 {
     text-align: center;
@@ -199,16 +150,9 @@ export default {
   }
 }
 .login-btn {
+  margin-bottom: 10px;
   button {
     width: 100%;
-  }
-}
-.register-text {
-  font-size: 14px;
-  line-height: 50px;
-  text-align: right;
-  a {
-    color: $blue;
   }
 }
 </style>
